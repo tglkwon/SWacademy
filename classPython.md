@@ -363,6 +363,7 @@ def y():
 
 1. First Class Function > object(value)
 파이선의 함수는 객체에서 만들어졌으므로 값이다.
+- higher order function : 함수를 인자로 받고 return 할 수 있는 함수
 
 2. callable
 파이선에서 ()는 연산자이다. 함수의 return값을 계산해서 반환해준다.
@@ -413,3 +414,177 @@ def kk(**a):
 가변 keyword 방식
 
 **kwargs : 키워드 argument, 많이 쓰는 argument들을 모아놓은 거. 개발시 모든 경우를 고려할 수 없으므로 나중에 추가하기 용이한 장점이 있다.
+
+# 220905 함수에 이어서
+
+```def x(a:int) -> int:
+	'''설명'''
+	return a
+
+help(x)
+x.__annotations__
+```
+파라미터에 입력할 타입과 함수가 출력할 타입을 설명에 넣어둘 수 있다.
+
+## nested : 중첩
+## LEGB : local Enclosing Global
+로컬에 없으면 글로벌에서 변수를 찾아라. 역은 성립하지 않는다. encapsulation
+
+```
+a=1
+def x(a):
+	a = 2 # local variable
+	return a
+
+x()
+```
+
+## clouser 함수 안에 함수를 넣고
+unboundLocalError : local 변수와 글로벌 변수를 같은 이름으로 선언하면 생기는 문제
+
+```
+a = 1
+def x():
+	global a
+	a += 1
+	return a
+
+
+x() => 2
+```
+
+사용하기는 쉬우나 글로벌 변수 조작하다 생길 수 있는 문제가 많아서 자주 쓰지 않는게 좋다
+
+enclosing
+```
+a=1
+def x():
+	a=2
+	def y():
+		nonlocal a
+		a = a+1
+		return a
+	return y
+
+
+x() => 3
+```
+
+builtin 함수도 새로 정의해버릴 수 있다.
+
+```print < builtins :function
+print = 1
+print
+=> 1
+del print
+```
+
+# class
+- assignment 할당 다른 이름으로 binding보다 더 복잡하면 다양한 기능을 할 수 있다.
+
+할당과 관련된 개념들
+ ```
+ a = 1 ## assignment / binding
+ a = b = 1
+ a = b = [1,2]
+ a, b= 1,2 # unpacking
+ a, *b = 1,2,3 # star
+ a += 1
+ global
+ nonlocal
+ ```  
+
+파이선에서는 data type을 class라고 한다. 따라서 새로운 class를 만드는 것은 새로운 data type을 만드는 것과 같다. 클래스 이름()하는 것으로 값을 만든다
+설명에서 Init signature: 클래스에서 함수를 이용하여 값을 만들것을 암시한다.
+
+meta
+
+```
+class A: # attrinbute 
+	a = 1 # class attribute / variable
+	def c(self): # instance method (attribute) > instance = object
+		self.c = 2 # instance variable
+		print('c')
+	@class method
+	def d(cls):
+		print('d')
+
+
+dir(A)  # class 정보가 다 나열된다
+
+파이선의 모든 클래스는 object를 기본적으로 상속받고 시작한다.
+class A(object):	# inheritance / 상속
+__*__ dunder : double underbar / magic method
+```
+```
+class T:
+	def __iter__(self,x):
+		return iter([1,2,3])
+
+
+t = T()
+for i in t:
+	print(i)
+```
+
+```
+import numpy as np
+a = np.array([1,2,3])
+np.array <- factory method(function) # design pattern
+a = np.ndarray([1,2,3]) <- 진짜 클래스 
+```
+
+```
+class B:
+	bb = 1
+	def cc(self, c):
+		self.c = c
+# class 변수는 클래스를 정의할 때 생성. 각각의 인스턴스들이 공유하는 값
+# 인스턴스 변수는 인스턴스 메소드가 실행된 후 생성. 각각의 인스턴스들이 각자 가지고 있는 값
+b1 = B()
+b1.cc(3)
+b2 = B()
+b2.cc(4)
+
+class C:
+	def __init__(self,x): # initializor : 생성자 > 차후 new로 확장
+		print('init')
+		self.x = x
+
+	def y(self):
+		print(self.x)
+# 인스턴스 변수는 클래스 내 에서 서로 사용 가능하다. 함수와 크게 다른 점 중 하나
+c = C() => Error x값을 입력하도록 에러남
+c = C(3) => init	# __init__ 실행
+클래스 내에서 바로 실행되는 instance
+vars(c) => {'x': 3}  # 현재 저장하고 있는 instance variable을 가르쳐준다
+```		
+
+## 함수와 클래스를 쓰는 경우 확인
+ 함수는 외부에서 접근할 수 없다. 클래스는 내외부에서 접근하고 바꿀 수 있다. 클래스는 값과 행동을 동시에 마음대로 다룰 수 있다.
+
+```
+ class A: # attrinbute 
+	aa = 1 # class attribute / variable
+	def c(self, x): # instance method (attribute) > instance = object
+		self.x = x # instance variable
+		print('c')
+
+
+a.aa = 'sun'
+vars(a) => {'t':4, 'aa': 'sun'}
+b.aa => 1
+# 인스턴스 변수에 없으면 클래스 변수를 찾는다.
+
+A.s = 'moon'
+a.s => 'moon' # 내부적으로 __get__이 실행된다
+a.s = 4 # 내부적으로 __set__이 실행된다
+``` 
+
+클래스에는 두 가지 연산을 지원한다.
+. : 참조 연산자
+() : 생성 연산자
+float을 만드는 .과 구분할 필요가 있으면 띄어쓰기를 추가한다.
+```
+-1 .__abs__()
+```

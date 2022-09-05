@@ -58,5 +58,17 @@ def t(x,*,t):
 
 print(t(5,t=1))
 
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 # plt.hist([1,2,3,4,1,4,1,2,3,4,1,2,3,1,2,5,5,3,1,2,3,5,1,2,5,5,2,3,5,2,3,2,3,5,2,3,5,5,1,3])
+
+def x(m):
+	def y(n):
+		return m+n
+	return y
+
+
+print( x(3)(4) )
+
+import sys
+print(sys.version())
+# dir(sys)

@@ -113,3 +113,15 @@ executemany - 동일한 SQL문을 반복하기 위한 구문
 fetchall() - 버퍼에 담긴 연산 결과를 출력하는 구문
 ```
 
+2.1 ORM : object relational mapping
+ programming technique for converting data between imcompatible type system using objeck-oriented programmming languages
+
+## why use ORM?
+- Mismatch between the object model and the relational database
+- ORM frees the programmer from dealing with simple repetitive datebase quieris
+- Automatically mapping the database to business objects
+- Programmers focus more on business problems and less with data storage
+- the mapping process can aids
+
+ORMs 중 SQLAlchemy를 쓴다
+
