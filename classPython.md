@@ -427,7 +427,7 @@ x.__annotations__
 파라미터에 입력할 타입과 함수가 출력할 타입을 설명에 넣어둘 수 있다.
 
 ## nested : 중첩
-## LEGB : local Enclosing Global
+## LEGB : local Enclosing Global Builtin 순으로 변수를 찾는다.
 로컬에 없으면 글로벌에서 변수를 찾아라. 역은 성립하지 않는다. encapsulation
 
 ```
@@ -587,4 +587,190 @@ a.s = 4 # 내부적으로 __set__이 실행된다
 float을 만드는 .과 구분할 필요가 있으면 띄어쓰기를 추가한다.
 ```
 -1 .__abs__()
+```
+
+# 220906 inheritance 상속 :다른 사람이 이미 만든 클래스를 받아와서 
+- 변경(Overriding) : 완전히 변경 할 수도 있고, 부분만 변경할 수 있다.
+- 추가
+- 삭제 (delegate 때문에 불가능) : 자식 클래스에 없는 것을 명령하면 부모 클래스에서 실행시킴
+- 그대로 사용하는 것
+
+## class inheritance (delegate) : 자식에 없는 건 부모에서 찾는다.
+
+```
+클래스.__main__ : 현재파일에서 정의했다는 것을 알려줌
+클래스.__bases__ : 현재 클래스의 상속 받은 부모 클래스들을 알려줌
+클래스.__base__
+클래스.__mro__
+클래스.__mro__
+```
+
+## 다중상속 : diamond 문제 등. 일반적으로 다른 프로그래밍 언어는 문제가 일어날 소지가 있어서 다중상속을 금지한다. 파이선은 허용한다
+class A(X,Y):
+	pass
+
+## method vs function
+사용 주체에 따라서 method도 되고 function이 될 수도 있다.
+
+self : 객체 자체를 대신해준다
+aa = A() : aa가 self
+
+```
+class A:
+	def sun(self):
+		print('sun1')
+
+class B(A):
+	def sun(self):
+		print('sun2')
+
+class C(B,A):
+	pass
+
+# 다중상속으로 개족보 상속이 생기는 경우에 생기는 문제를 diamond 문제라 부른다.
+# 이를 해결하는 파이선의 방법은 mro을 이용하여 안되는 다중 상속을 금지시킨다. diamond 문제가 있을 수 없다.
+## metaclass : class의 class
+## mro : method resolution order 
+
+# 클래스의 기본 옵션
+class E(object, metaclass=type):
+	pass
+
+class E:
+	pass
+```
+
+## 부모 클래스의 method 변경/ 일부 변경
+```
+class A:
+	def __init__(self):
+		print('A')
+
+class B(A):
+	def __init__(self): # overriding
+		A.__init__(self)
+		print('B')
+
+class C(A):
+	def __init__(self):
+		A.__init__(self)
+		print('C')
+
+class D(B,C):
+	def __init__(self):
+		B.__init__(self)
+		C.__init__(self)
+		print('D')
+
+d = D()
+print(d) => A B A C D
+```
+super() <- # 부모의 instance를 (상속 체계를 고려하여) 반환한다
+일을 처리하는 방식이 stack이다. <- mro 순서의 역순처럼 보이는 이유
+```
+class A:
+	def __init__(self):
+		print('A')
+
+class B(A):
+	def __init__(self): # overriding
+		super().__init__()
+		print('B')
+
+class C(A):
+	def __init__(self):
+		super().__init__()
+		print('C')
+
+class D(B,C):
+	def __init__(self):
+		super().__init__()
+		print('D')
+
+d = D()
+print(d) => A C B D
+```
+
+
+```
+class A:
+	def xx(self):
+		print('xx')
+
+class B(A):
+	pass
+```
+# 상속을 대신하는 합성 (1)
+```
+class C:
+	x = A.x
+	def __init__(self):
+		self.a = A()
+	
+	def xx(self):
+		self.a.xx()
+```
+# 상속을 대신하는 합성 (2)
+```
+class D:
+	def __init__ (self):
+		self.a = A()	# compos
+
+	def __getattr__(self, x):	# attribute error 발생시 실행, try/except
+		return getattr(self.a, x)
+```
+# 다형성 
+- override : python은 function/method 이름만 맞추면 가능하다
+- 일반적으로 다른 언어들은 override signature를 맞춰야 한다.
+
+# Overloading
+- function overloading : python에서 제공하지 않는다. / 대신 generic을 제공
+``` 
+# function overloading이 지원된다면 다른 함수로 간주하는 개념 (parameter/type이 다르기 때문에)
+def x(int a):
+	print(a)
+
+def x(str a):
+	print(a)
+
+def x(a,b):
+	print(a,b)
+
+x(1)
+x(1,2)
+가 가능하게 되는것이 overloading
+```
+
+- operator overloading : 연산자의 기본 기능을 변경. 같은 클래스 내에서 사용 (overriding은 다른 함수(상속)로부터 온 것을 바꾸는 경우)
+
+```
+type(tips)
+type(tips['tip'])
+
+tips.describe() # 다형성을 지원하지 않는다면 describe_dataframe() 이런 식으로 이름을 다르게 해야한다
+tips['tip'].describe()
+# 이 둘의 결과가 다른 것이 overloading의 예시
+```
+
+# generic : 특정 data type에 따라서 다르게 처리
+
+# dispatch : 전파, delegate와 비슷한 개념
+```
+from functools import singledispatch
+# 기본적으로 python에서는 multi dispatch를 지원하지 않는다.
+# 예시에서는 x를 generic function이라고 부른다
+@singledispatch
+def x(a):
+	print(a)
+
+@x.register(int)
+def _(a):
+	print('int')
+	print(a)
+
+@x.register(str)
+def _(a):
+	print('str')
+	print(a)
+
 ```

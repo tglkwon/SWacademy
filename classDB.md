@@ -125,3 +125,28 @@ fetchall() - 버퍼에 담긴 연산 결과를 출력하는 구문
 
 ORMs 중 SQLAlchemy를 쓴다
 
+
+# 220906
+SQLAlchemy - ORM(Mapping! Object-Realational Table)
+					->	SQL(DB)
+					->	Talbe Object(MetaData Class)
+					->	insert, delete (실제 DB 통신 - Lazy)
+					->	AND, OR, NOT, ... LIKE => 예제에선 :memory:에 저장했었다.
+
+## 새로 시작시,
+1. MetaData Instance 생성
+2. Table Instance 생성 후 MetaData에 등록(파라미터로 등록 / 나중에 할 수도 있음)
+3. engine Instance 생성
+4. engine으로 Tables 물리적 DB에 생성
+5. insert()
+6. join()
+7. select
+## 새로 시작하는 경우가 아니라면
+1. MetaData.clear(), engine.dispose()
+2. 나머지는 위와 동일
+
+
+### session
+import sqlalchemy.orm.session session
+
+

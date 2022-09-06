@@ -70,5 +70,54 @@ def x(m):
 print( x(3)(4) )
 
 import sys
-print(sys.version())
+# print(sys.version())
 # dir(sys)
+
+
+##### 클래스
+
+class A:
+	def __init__(self):
+		print('A')
+
+class B(A):
+	def __init__(self): # overriding
+		A.__init__(self)
+		print('B')
+
+class C(A):
+	def __init__(self):
+		A.__init__(self)
+		print('C')
+
+class D(B,C):
+	def __init__(self):
+		B.__init__(self)
+		C.__init__(self)
+		print('D')
+
+d = D()
+print(D.mro(), d)
+	
+
+class AA:
+	def __init__(self):
+		print('A')
+
+class BB(AA):
+	def __init__(self): # overriding
+		super().__init__()
+		print('B')
+
+class CC(AA):
+	def __init__(self):
+		super().__init__()
+		print('C')
+
+class DD(BB,CC):
+	def __init__(self):
+		super().__init__()
+		print('D')
+
+dd = DD()
+print(dd) 	
