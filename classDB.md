@@ -149,4 +149,22 @@ SQLAlchemy - ORM(Mapping! Object-Realational Table)
 ### session
 import sqlalchemy.orm.session session
 
+### relationship
+부모 입장 : 내 자식은 누구누구
+자식 입장 : 내 부모는 누구다.
+backref : table 간의 부모자식을 중 단방향/한쪽만 설정하는 방법
+back_populate : 양방향에 관계를 명시하는 것
 
+
+
+Instagram => 본문내용, #해시태그, ...
+테이블 -> 클래스 설계
+:Create
+
+Post(내용, 태그,태그...)
+Post DB -> 내용, 태그 디비 -> 태그1,태그2... => 클래스 함수
+내용 ~ 태그들 출력
+
+:Update
+Post 내용 수정
+Tag 수정(+-1)

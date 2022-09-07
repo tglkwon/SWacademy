@@ -563,7 +563,7 @@ vars(c) => {'x': 3}  # 현재 저장하고 있는 instance variable을 가르쳐
 ## 함수와 클래스를 쓰는 경우 확인
  함수는 외부에서 접근할 수 없다. 클래스는 내외부에서 접근하고 바꿀 수 있다. 클래스는 값과 행동을 동시에 마음대로 다룰 수 있다.
 
-```
+
  class A: # attrinbute 
 	aa = 1 # class attribute / variable
 	def c(self, x): # instance method (attribute) > instance = object
@@ -752,9 +752,9 @@ tips['tip'].describe()
 # 이 둘의 결과가 다른 것이 overloading의 예시
 ```
 
-# generic : 특정 data type에 따라서 다르게 처리
+## generic : 특정 data type에 따라서 다르게 처리
 
-# dispatch : 전파, delegate와 비슷한 개념
+## dispatch : 전파, delegate와 비슷한 개념
 ```
 from functools import singledispatch
 # 기본적으로 python에서는 multi dispatch를 지원하지 않는다.
@@ -773,4 +773,151 @@ def _(a):
 	print('str')
 	print(a)
 
+```
+
+# 220907
+객체지향 프로그래밍 -> 이미 만들어진 클래스를 활용/수정하여 나에 딱 맞는 기능을 만들어내는 방식이다.
+
+파이선은 함수, 클래스 외부에서 내부 요소에 접근하지 못하는 것은 없다
+하지만 관례상 다른 언어들처럼 private처럼 쓰고 싶다면 _% 이런 식으로 쓴다.
+
+파이선에서는 파일도 객체로 읽어온다
+
+"*"의 활용
+```
+2*2 => 4
+2**3 => 8
+[1,2,3]*4 => [1,2,3,1,2,3,1,2,3,1,2,3]
+a, *b = 1,2,3
+
+def x(a, *b): # 별표 뒤에는 keyword 방식으로 쓴다
+    pass
+
+def x(*a): # 가변 positional
+    pass
+    
+def x(**a): # dictionary
+    pass
+    
+from s import *
+```
+
+```
+a = [1,2,3]
+x(a) => ([1,2,3],)
+x(*a) => (1,2,3)
+
+def x(**a):
+    print(a)
+    
+b = {'a':1, 'b':2}
+x(**b) # 
+x(*b) # key
+
+b = {'a':1, 'b':2}
+c = {'a':3, 'c':4}
+d = {**b, **c}
+=> {'b':2,'a':3, 'c':4}
+```
+
+package import할 때 __all__이 정의되어 있으면 그 부분만 import한다.
+
+### '_'의 활용 1000_000
+숫자에 _는 아무때나 붙일 수 있다. 시각적으로 큰 수를 끊어읽기 위한 도구
+
+가장 최근 결과값을 _로 알 수 있다.
+변수의 앞에 _를 붙이면 관례상 private으로 취급한다.
+관례상 변수명을 쓰기 싫을때, 사용되지 않는 변수를 _로 쓴다
+```
+for i,_ in [1:2,3:4].items():
+    print(i) 
+```
+
+## 다형성 복습 (Polymorphism)
+- 상속
+- overloading (function overloading: python에선 generic으로 구현, operator overloading)
+
+## metaclass : 클래스의 클래스, 클래스의 행동을 결정한다.
+*클래스는 object(instance)의 행동을 결정한다.
+type()은 익명 클래스를 만드는 식으로 볼 수 있다. 메타 클래스이다.
+
+### lamda : 익명 함수 또는 함수식
+```
+lamda x: 3
+def a(x):
+    return 3
+# 둘이 같은 기능을 하는 함수이다.    
+```
+1회성으로 사용할 때 사용한다.
+
+### 추상화 : 파이선의 추상화는 metaclass를 이용하여 구현한다.
+````
+# 클래스의 기본적으로 정의되어 있는 것들
+class A(object, metaclass=type):
+    pass
+
+object와 metaclass    
+````
+
+### singleton : python의 클래스는 인스턴스를 무한히 만들 수 있지만 단 하나의 인스턴스를 만드는게 메타클래스의 시작
+```
+class A:
+    def __new__(self):
+        print('new')
+        return super().__new__(self) # 이부분이 없으면 틀린다
+
+    def __init__(self):
+        print('init') # __init__는 return이 있으며 안된다.
+
+    def __call__(self):
+        print('call') #
+```
+
+
+메타클래스를 만드는 3단계
+1. type을 상속해서 메타클래스를 만든다.
+
+```
+class S(type):
+    def __call__(self):
+        print('call')
+```
+싱글톤
+
+추상 클래스를 만드는 방법
+```
+from colections.abc import ABCMeta, abstractmethod
+
+class A(metaclass=ABCMeta):
+    @abstractmethod
+    def x(self):
+        pass
+```
+
+문제상황 : Sequence 데이터 타입을 받게 클래스를 만듦
+일일이 체크하는 것을 다 안 만듦. 일부 아예 안 만듦.
+```
+class A:
+    def __getitem__(self, x):
+        pass
+    def __len__(self):
+        pass
+```
+저 두가지가 있으면 squence 데이터 타입으로 본다
+
+덕 타이핑을 쓰면 실수할 수 있지만. 메타클래스를 이용해 사용을 특정 상황으로 강제한다.
+
+```
+import tensorflow as tf
+import inspect
+print(inspect.getsource(Squence))
+```
+
+메타 클래스 없이 쓰기 위해 만든 모듈
+```
+from abc import ABC
+class A(ABC):
+    @abstractmethod
+    def x(self):
+        pass
 ```
