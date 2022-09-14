@@ -27,3 +27,35 @@ def fibonacci(n):
     elif n == 2:
         return 2
     return fibonacci(n-1) + fibonacci(n-2)
+
+import time
+time.time()
+def x(a=time.time()):
+    return a
+# 함수를 정의할 때 time()이 고정 되서 들어간다
+print(x)
+print(x)
+# 같은 값이 나온다
+
+temp = []
+for i in range(5):
+    temp.append(lambda m: m+i)
+    #temp.append(lambda m,i=i: m+i) dump 안되게 하는 트릭
+
+print(temp[1](5))
+# 함수가 되기전에 dump가 되서 마지막 함수 m+4만 생성된다.
+temp = [lambda m: m+i for i in range(5)]
+print(temp[1](5))
+# 결과가 다르다
+
+
+class A:
+    def __init__(self, m):
+        self.m = m
+
+    @staticmethod
+    def y(n):
+        # return self.m + n
+        pass
+
+
