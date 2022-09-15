@@ -92,4 +92,18 @@ urllib.requst   : opening and reading urls
 ```
 from urllib import request
 ```
+request - response
+# Status code
+알아야 할 코드 
+- 200 : 정상
+- 400번 대 : 클라이언트(내) 문제
+- 500번 대 : 서버의 문제
 
+text/html => byte -> string(utf-8/euc-kr)
+application/xml+json, images/jpeg+png+webp.. , audio/video
+
+request를 보내는 양식의 종류
+GET / POST / PUT / DELETE
+%Encoding(%16진수 => 1Byte)
+&Encoding(&__;)
+QS(Bytes) => urlencode(dict, tuple) => parse
