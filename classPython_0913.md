@@ -203,3 +203,96 @@ class B:
 b = B()
 b * 3   => 0
 ```
+
+
+# 220915
+## method : class 내에서 function의 역할을 하는 것
+```
+class A:
+    @classmethod
+    def x(cls): # classmethod의 매개변수는 관례상 cls로 쓴다.
+        cls.y = 1
+    def xx(self):
+        self.yy = 1
+       
+        
+a = A()
+print(A.y, a.y, a.yy)        
+```
+# Lazy Evaluation : 실행할 때마다 필요한 값을 메모리에 그때그때 올린다.
+iterator, generator (tuple comprehension과 함수 내부에 yield를 사용하는 법 2가지가 있다)
+iterator
+```
+a = [1,2,3,4,5]
+b = iter(a)
+next(b)
+next(b)
+list(b) => [3,4,5]
+```
+
+## iterator protocol
+iterator는 iterable하고 next를 할 수 있어야 한다. 즉, \_\_iter__, \_\_next__를 무조건 만들어야 한다.
+```
+class A:
+    def __str__(self):  # print()하면 실행되는 것
+        return '1'
+    def __repr__(self): # 이름을 부르면 실행되는 것
+        return '2'
+
+a = A()
+
+print('next' in dir(A))
+```
+# Operator
+```
+from operator import add, sub, multiply, divid
+add(1,2)
+```
+# Higher-Order function : 함수에 함수를 인자로 넣고 함수를 리턴하는 것 (map, filter, reduce)
+## map : 모든 iterable에 같은 함수의 연산을 한다
+``` 
+b = list(map(lambda x:x+1, [1,2,3,4,5]))
+next(b)
+
+import seaborn as sns
+iris = sns.load_daataset('iris')
+temp = [i+1 for i in iris.sepal_length]
+
+iris.sepal_length.map(lambda x:x+1)
+```
+## filter : 원하는 데이터만 걸러낸다.
+```
+b = filter(lambda x:x>2, [1,2,3,41])
+[i for i in [1,2,3,4] if i>2]
+```
+## reduce
+```
+from functools import reduce
+reduce(lambda x,y:x+y, [1,2,3,4,5])
+=> 15
+list(accumulate([1,2,3,4,5], lambda x,y:x+y))
+=> [1,3,6,10,15]
+
+list(map(lambda x,y:x+y, [1,2,3,4,5], [2,3,4,5,6]))
+```
+## 위의 3가지 함수들은 동시실행이 가능하다. gpu연산을 기대할 수 있다. reduce는 조건이 좀 붙는다.
+
+## zip
+```
+list(zip((1,2,3),(4,5,6,7)))
+=> [(1,4), (2,5), (3,6)]
+# 짧은 거 기준으로 묶는다
+# 긴거 기준으로 묶는 방법
+from itertools import zip_longest
+```
+## enumerate
+```
+list(enumerate([1,2,3,4,5,6]))
+=> [(0,1),(1,2),(2,3),(3,4),(4,5),(5,6)]
+
+for i,j in enumerate([1,2,3]):
+    print(i,j)
+    
+=> 0 1 / 1 2 / 2 3
+```
+

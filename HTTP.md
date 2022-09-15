@@ -107,3 +107,43 @@ GET / POST / PUT / DELETE
 %Encoding(%16진수 => 1Byte)
 &Encoding(&__;)
 QS(Bytes) => urlencode(dict, tuple) => parse
+
+## traffic control
+```
+import time
+time.sleep(1) # 초 단위로 일시정지하는 코드
+```
+
+# JSON : javascript Object Notation
+{"key1": "value1", "key2": 2, "key3":None, "key4": True, "key5": {"key6":[1,2,3]}}
+가능한 타입
+NULL, INTEGER, TEXT, BOOLEAN, ARRAY, JSON
+
+```
+from json import dumps, loads
+js = dumps({"key1": "value1", "key2": 2, "key3":None, "key4": True, "key5": {"key6":[1,2,3]}}
+)
+```
+
+# DOM : document object model
+```
+html = '''
+<html>
+    <head></head>
+    <body>
+        <div id="result">
+            <p class="row">
+                <a class="news_tit">link1</a>
+            </p>
+            <p class="row">
+                <a class="news_tit">link2</a>
+            </p>
+        </div>
+    </body>
+</HTML>
+'''
+dom = BeautifulSoup(html, 'html.parser')
+dom.children # 아래 태그들이 나온다
+dom.find()
+dom.findall()
+```
