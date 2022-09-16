@@ -147,3 +147,9 @@ dom.children # 아래 태그들이 나온다
 dom.find()
 dom.findall()
 ```
+
+## 웹 페이지를 읽는 4가지 방법
+1. RE
+2. DoM
+3. Selector
+4. lxl??

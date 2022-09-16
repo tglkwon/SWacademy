@@ -67,3 +67,36 @@ list(enumerate([1,2,3,4,5,6]))
 
 for i,j in enumerate([1,2,3]):
     print(i,j)
+
+# decorator
+def x(fun):
+    def y():
+        print('start')
+        fun()
+        print('end')
+    return y
+
+@x
+def y():
+    return 1
+
+print(y())
+
+### decorator 중급 ; 3단 구조
+def z(m=3):
+    def x(fun):
+        def y(*args, **kwargs):
+            print('decorator')
+            fun()
+
+        return y
+
+    return x
+
+
+@z(4)
+def t():
+    print('a')
+
+
+print(t())

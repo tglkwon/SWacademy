@@ -296,3 +296,138 @@ for i,j in enumerate([1,2,3]):
 => 0 1 / 1 2 / 2 3
 ```
 
+# 220916
+파이선에서 뭔가 하고 싶고 필요한 라이브러리가 있다면 
+[awesome python](https://www.google.com/search?q=python+awsome&rlz=1C1CHBF_enKR819KR819&oq=python+awsome&aqs=chrome..69i57j0i13l9.4499j0j15&sourceid=chrome&ie=UTF-8)
+을 찾아볼 것. 겁나 많다
+
+# decorator : function clojure; 이미 존재하는 함수의 기능을 동적으로 변경, 확장하는 기법. 함수형 패러다임 중 하나
+%clojure : 밖에 있는 인자가 함수 안에 전달되는 거
+예시1
+```
+def x(fun):
+    def y():
+        print('start')
+        fun()
+        print('end)
+    return y
+
+@x
+def y():
+    return 1
+```
+예시 2   
+```
+def z(a):
+    return a+1
+    
+def zz(fun):
+    def xx(a):
+        return fun(a+1)
+    return xx
+    
+    
+@zz
+def z(a):
+    return a+1
+```
+
+## decorator 예제
+@staticmethod
+@classmethod
+@property
+
+```
+import time
+def timeit(fun):
+#    @wraps(fun)
+    def x():
+        start = time.time()
+        fun()
+        end = time.time()
+        print(end-start)
+    return x
+
+
+@timeit
+def rn():
+    return sum(range(1000000))
+
+print(rn())
+
+rn.__name__
+=> x
+=> wraps가 있으면 rn #수정해서 쓰고 있는 현 함수로 이름을 돌려준다
+```
+
+```
+def z(m):
+    def x(fun):
+        def y(*args, **kwargs):
+            print('decorator')
+            fun()
+        return y
+    return x
+    
+@z(3)
+def t():
+    print('a')
+    
+print(t())    
+```
+
+### 데코레이터 중급 ; 2단 구조
+```
+def xx(fun=None, m=3):
+    if fun is None:
+        return partial(xx, m=m)
+    def y(*args, **kwargs):
+        print('abc')
+        fun(*args, **kwargs)
+    return y
+    
+#@xx(m=2) # 기본값을 줘서 괄호가 없어도 작동한다. 값을 넣고 싶으면 매개변수 자리와 키를 확인해야한다.
+@xx
+def tt():
+    print('1')
+
+
+tt()    
+```
+
+# with : 
+b = f.open('ddd.txt')
+dir(b)
+=> \_\_enter__ , \_\_exit__  기능적으로 짝을 이루어줘야 하는 기능을 돕는다.
+file open, close 같이
+```
+class X:
+    def __enter__(self):
+        print('enter')
+    def __exit__(self,a,b,c):
+        print('exit')
+        
+with X():
+    print('a')
+    
+=> enter a exit
+
+## 파일 오픈 예제
+with open('a.txt') as a: # a = open('a.txt')
+    print(a)
+
+## as를 쓰는 다른 예제
+try:
+    1/0
+except Exception as e:
+    print(e)
+    
+=> division by zero
+```
+
+```
+from bs4 import BeautifulSoup
+raise Exception from e
+
+```
+

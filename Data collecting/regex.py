@@ -96,7 +96,7 @@ data = '''
 #12 두 글자는 아직 처리 못함
 for _ in data.splitlines():
     if len(_) > 0:
-        temp = re.sub('[.]{2,}', '.', _.strip())
+        temp = re.sub('[.]{2,}', '..', _.strip())
         temp = re.sub('^[.]', '', temp)
         temp = re.sub('[.]$', '', temp)
         temp = re.search('[a-z0-9\-\_\.]{3,15}', temp).group(0)

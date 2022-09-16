@@ -1,4 +1,4 @@
-from requests import request
+from requests_dom import request
 import re
 # get
 # url = 'https://httpbin.org/get'
