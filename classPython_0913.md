@@ -431,3 +431,28 @@ raise Exception from e
 
 ```
 
+# 220919 decorator에 이어서
+파이선은 함수 오버로딩을 지원하지 않는다. @overload라는 데코레이터로 그 역할을 한다
+파이선에서 제공하지 않는 기능, 함수를 만들 수 있다.
+
+특징들
+- 첫번째 함수는 첫 번째 인자로 함수를 받아야 한다. 2단계로 만드는 법과 3단계로 만드는 법에 따라 테크닉적으로 만들 수 있다.
+- 내부 함수의 인자를 정확히 맞춰야 하는데, 인자를 (*args, **kwargs)로 하면 항상 인자가 맞기에 편하게 쓸 수 이싿.
+- wraps로 감싸서 내부 함수를 보이게 할 수 도 있다.
+
+1. chaingin decorators
+decorator의 결과로 함수가 return되는데 그 함수를 다른 decorator에 넣을 수 있다. 
+
+# class decorators
+## dataclass 타입 힌트를 쉽게 만들어주는 class decorator
+
+### typing : type hint의 확장판 : annotation
+```
+def x(t:int) -> str:
+    return 'a'
+
+x.__annotations__
+=> {'t': int, 'return': str}   
+```
+
+
