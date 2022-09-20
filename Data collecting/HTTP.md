@@ -153,3 +153,10 @@ dom.findall()
 2. DoM
 3. Selector
 4. lxl??
+
+
+# 220920
+# Dynamic HTML : react, angular, vue 등등
+
+# cookie : client들의 정보를 저장하는 방식
+requests 에서 Session을 이용함

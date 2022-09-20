@@ -1,18 +1,26 @@
 from PySide6.QtWidgets import (QApplication, QWidget, QLabel,
                                QMainWindow, QMenuBar, QToolBar, QMenu,
-                               QPushButton, QVBoxLayout, Qc)
-from PySide6.QtGui import QPalette, QIcon, QIconEngine
+                               QPushButton, QVBoxLayout, QLineEdit)
+from PySide6.QtGui import QPalette, QIcon, QIconEngine, QAction
 from PySide6.QtCore import Qt, QSize, Slot
 import pprint
 # print(dir(Qt))
 app = QApplication()    # 눈에 보이지 않는 영역을 처리해주는 instance
+
 window = QMainWindow()  # 메뉴, 툴바들을 추가시키고 관리한다
+
+
 
 # 나만의 프로그램 창 만들기
 class KwonMainWindow(QMainWindow):
     def __init__(self, title):
         super(KwonMainWindow, self).__init__()
         self.setWindowTitle(title)
+
+        line_editor = QLineEdit()
+        line_editor.setText('뭉근녕')
+        self.setCentralWidget(line_editor)
+
         icon = QIcon('jsonWeb.jfif')
         label = QLabel('Moon')
         button = QPushButton(icon, 'json')
@@ -24,8 +32,16 @@ class KwonMainWindow(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+    def _creat_menu(self):
+        menubar = self.menuBar()
+        menu = QMenu('File')
+        action = QAction('moon', self)
+        menu.addAction(action)
+        # icon = QIcon('jsonWeb.jfif')
+        menubar.addMenu(menu)
 
-window = KwonMainWindow('Kwon')
+
+# window = KwonMainWindow('Kwon')
 
 
 ## label 연습

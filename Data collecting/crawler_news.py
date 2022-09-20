@@ -53,8 +53,7 @@ url = 'https://news.naver.com'
 urls = list()
 urls.append((url, 0))  # 깊이 제한
 seens = list()
-headers = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
+headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 
 robots = dict()
 
@@ -107,18 +106,26 @@ while urls:
                         urls.append((nextUrl, seed[1] + 1))  # 깊이 제한
 
             news = dom.select_one('#ct #contents')
-            imgs = dom.select_one('#img1')
-            # print(urls, len(seens))
+            # print(imgs.text)
             if news:
                 fileName = re.search('(\d{10})[?]sid=(\d{3})', resp.url)
                 with open('./news/{}-{}.txt'.format(fileName.group(2), fileName.group(1)), 'w', encoding='utf8') as f:
                     f.write(news.text.strip())
-            if imgs:
-                fileName = re.search('_(\d{17}).[png|jpg|jpeg]', imgs.text)
-                with open('./news/{}-{}.txt'.format(fileName.group(2), fileName.group(1)), 'w', encoding='utf8') as f:
-                    f.write(news.text.strip())
+
+                for img in news.select_one('#img1'):
+                    urls.append((urljoin(resp.url, img.attrs['data-src']), seed[1]+1))
 
         else:
+            #image/jpeg
+            ext = re.search(r'image/(.+?);', resp.headers['Content-Type'])
+            if ext:
+                # fileName = re.search('(\d{8}_\d{3})', resp.url)
+                fileName = resp.url.split('/')[-1]
+                fileName += '.'+ext.group(1)
+                with open('./news/'+fileName, 'wb') as fp:
+                    fp.write(resp.content)
+
+        # else:
             print(resp.headers['Content-Type'])
     # break
     print(len(urls), len(seens))
