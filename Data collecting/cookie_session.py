@@ -1,4 +1,5 @@
 from requests import Session, request, get
+from requests.compat import urlencode
 from bs4 import BeautifulSoup
 from config import c
 
@@ -24,3 +25,17 @@ for k, v in cookies.items():
 
 print(session.get('https://mail.naver.com', headers=headers).text)
 # [.name _ccr(1st.from)]  [.subject ]
+
+url = 'https://mail.naver.com/json/list/'
+params = {
+    "page":1,
+    "sortField":1,
+    "sortType":0,
+    "folderSN":0,
+    "type":"",
+    "isUnread":"false",
+    "u":"tglkwon"
+}
+
+# resp = session.post(url+'?'+urlencode(params))
+# print(resp.text)
