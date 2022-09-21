@@ -1,5 +1,3 @@
-.idea
 jsonWeb.jfif
-./Data collecting/Crawler and Text Analysis.pptx
-./Data collecting/new/*
-Data collecting/news/config.py
+/Data collecting/config.py
+/Data collecting/news/

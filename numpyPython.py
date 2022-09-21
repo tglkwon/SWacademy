@@ -78,3 +78,52 @@ np.reshape(a,(2,5))
 ## 파이선 관례상 실행했을때 output(return)이 없으면 자기 자신이 변경된다.
 ## 반대로 return 이 있으면 보통 바뀌지 않는다.
 
+a = np.array([[1,2],[3,4]])
+b = a
+b[0,0] = 100
+b = a.copy()    # numpy의 copy는 기본적으로 deep copy # view 가 shallow copy
+
+b = a.flat
+next(b)
+
+a.flatten() # copy
+a.ravel()   # view
+
+a = np.array([1,2,3])
+b = np.array([4,5,6])
+np.concatenate((a,b), axis=0)
+
+aa = np.array([[1,2,3]])
+bb = np.array([[4,5,6]])
+np.concatenate((aa,bb), axis=1)
+
+# 한 차원을 높여서 붙여줌
+np.stack([aa,bb])
+
+a = np.array([[1,2],[3,4]])
+a.reshape(1,2,2)
+a.reshape(2,1,2)
+a.reshape(2,2,1)
+
+np.expand_dims(a,0)
+
+a[None] == a[None,...]
+a[:,None,:]
+
+np.newaxis == None
+
+np.vstack((aa,bb))
+np.hstack((aa,bb))
+np.column_stack((aa,bb))
+
+np.r_[aa,bb]
+np.c_[aa,bb]
+
+# 자르기, 차원 낮추기
+a = np.arange(36).reshape(4,9)
+np.vsplit(a,2)
+np.hsplit(a,3)
+np.split(a,2, axis=0)
+# 1 보다 작을때 1,2 사이일때, 2 이상일때
+np.split(a,(1,2), axis=0)
+

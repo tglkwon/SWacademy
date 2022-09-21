@@ -56,3 +56,68 @@ a = np.arange(24).reshape(2,3,4)
 print(a[1,1,1])
 print(a[:,:,3] == a[...,3])
 ```
+
+# 220921
+파이선은 기본적으로 type conversion 문법이 없다. 
+명시적 변환 => 새롭게 생성
+a = [1,2,3,4]
+set(a)
+=> {1,2,3,4}
+
+```
+import numpy as np
+b = np.array([1,2,3])
+# c언어 스타일 : 속도를 위해 c로 만든 부분이 많기때문
+b.astype('float32') # type casting
+```
+## predicated function : 참/거짓을 반환하는 함수
+issubclass, isinstance
+```
+np.fromfunction(lambda x,y: x+y, (2,2))
+
+import pandas as pd
+pd.DataFrame.from_dict()
+
+# stride를 이용해 연산을 더욱 빠르게 하는 기법
+np.lib.stride_tricks
+
+import scipy
+from scipy.ndimage import convolve
+from scipy.ndimage import concolve2d
+from scipy.cluster import hierarchy
+
+a = np.array([1,2,3], dtype=np.uint8)
+a + 256
+=> array([257,258,259], dtype=uint16)
+# 파이선은 타입 오버플로운 없이 타입 사이즈를 늘려준다.
+np.add(a,256)
+=> array([1,2,3], dtype=uint8)
+```
+넘파이에서 매트릭스를 다룰때 제일 주의할 것
+데이터 타입과 shape
+```
+np.lookfor('convolution')
+np.info
+np.iinfo('int32')
+=>min=-214, max=214
+```
+
+## interning : 자주 쓰는 값들은 특정 메모리에 미리 넣어 두고 쓰는 기법
+```
+import sys
+sys.intern
+```
+
+# mixed precision : 딥러닝 모델을 압축시키는 기법
+
+# structured array : 자신만의 datatype을 만드는 것
+```
+x = np.rec.array([('Rex', 9, 81.0), ('Fido', 3, 27.0)],
+            dtype=[('name', 'U10'), ('age', 'i4'), ('weight', 'f4')])
+x[0]        =>('Rex', 9, 81.0)
+x['name']   =>array(['Rex', 'Fido'], dtype='U10')
+x.name      => .rec 를 붙여서 레코드 어레이로 만들면 다음과 같은것이 가능
+```
+table 기반 데이터를 만들 수 있다.
+
+# indexer : pandas에서 
