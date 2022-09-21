@@ -1,4 +1,4 @@
-from requests import Session, request, get
+from requests import Session, get
 from requests.compat import urlencode
 from bs4 import BeautifulSoup
 from config import c
@@ -37,5 +37,27 @@ params = {
     "u":"tglkwon"
 }
 
-# resp = session.post(url+'?'+urlencode(params))
-# print(resp.text)
+resp = session.post(url+'?'+urlencode(params), headers=headers)
+print(resp.headers)
+
+# mail names
+mailUrl = 'https://mail.naver.com/json/list/'
+mailParams = {
+    'charset': '',
+    'prevNextMail': 'true',
+    'threadMail': 'true',
+    'folderSN': 0,
+    'listScrollPosition': 0,
+    'mailSN': 0,
+    'previewMode': 2,
+    "u": "tglkwon"
+}
+
+resp = session.post(mailUrl+'?'+urlencode(mailParams), headers=headers)
+
+for mail in resp.json()['mailData']:
+    print(mail['mailSN'], mail['subject'])
+    mailParams['mailSN'] = mail['mailSN']
+    data = session.post(mailUrl+'?'+urlencode(mailParams), headers=headers)
+    body = BeautifulSoup(data.json()['mailInfo']['body'], 'html.parser').text.strip()
+    print(body)
