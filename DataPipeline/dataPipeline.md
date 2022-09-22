@@ -121,3 +121,17 @@ x.name      => .rec 를 붙여서 레코드 어레이로 만들면 다음과 같
 table 기반 데이터를 만들 수 있다.
 
 # indexer : pandas에서 
+
+# 220922
+# pandas : 파이선을 돌리는 엑셀
+
+### fs.open으로 하면 문자열로 불러온다
+
+tidi data: 연월날짜가 그냥 숫자 등으로 되어 있는 경우 날짜 전용 데이터로 변형하는 것
+
+# pandas가 메인 데이터로 다루는 dataframe에서
+첫줄은 header
+왼쪽 첫줄은 indexer
+
+dict의 테크닉컬한 활용
+b.get('x',3)
