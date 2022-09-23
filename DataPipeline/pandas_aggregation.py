@@ -23,3 +23,14 @@ temp.aggregate(['mean', 'std'])
 tips = sns.load_dataset('tips')
 tips.groupby(['smoker', 'day'], as_index=False).mean()
 # 전반적인 경향성을 미리 확인하기 좋다
+
+# aggregation 분석하는 방법
+# margin 전체의 최대
+tips.pivot_table(index='sex', columns='smoker', values='tip', aggfunc='max', margins=True)
+pd.pivot_table(tips, index='sex', columns='smoker', values='tip', aggfunc='max')
+# tips.show()
+
+tips.groupby(['sex', 'smoker']).mean()
+tips.groupby(['sex', 'smoker'])['tip'].mean().unstack()
+
+pd.crosstab(tips.sex, tips.smoker, values=tips.tip, aggfunc='mean')
