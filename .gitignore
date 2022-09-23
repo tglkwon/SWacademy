@@ -1,3 +1,5 @@
 jsonWeb.jfif
 /Data collecting/config.py
-/Data collecting/news/
+/Data collecting/news/*
+/DataPipeline/incheon_yeonsugu_covid.csv
+/DataPipeline/ml-1m/*
