@@ -67,3 +67,4 @@ def calcConProb(token1, token2):
     
 
 print(calcProb('유구'), calcProb('한'), calcConProb('유구', '한'))
+
