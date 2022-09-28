@@ -22,3 +22,15 @@ sns.violinplot(data=iris, y='species', x='sepal_length', orient='h')
 plt.show()
 sns.swarmplot(data=iris, x='species', y='sepal_length')
 plt.show()
+
+mpg = sns.load_dataset('mpg')
+mpg.boxplot(figsize=(10,5))
+plt.show()
+
+import mglearn
+# mglearn.plot_scaling.plot_scaling()
+# plt.show()
+
+# standard scalar : Z = (X-min)/sigma
+# MinMaxScalar : (X-min)/(Max-min)
+
