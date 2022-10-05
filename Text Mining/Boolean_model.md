@@ -94,3 +94,13 @@ while >-1
 N = len(D)
 => Documents|Collection
   (1번 문서, 최대 빈도수)
+
+Summation(t ㅌ (C)V)     t ㅌ d_i
+TDM: {단어: 위치}
+문서1에 대한 모든 단어의 가중치를 구하려면?
+
+# weight
+1. euclidean distance : query vetor와 TDM matrix간의 거리를 이용해 similarity를 측정하는 방법
+2. cosine similarity : query vetor와 TDM matrix간의 각도를 이용해 similarity를 측정하는 방법
+    V_q * V_d
+- 빠른 계산식 cosine(Vq, Vd) = Vq * Vd/|Vd| : query는 weight를 계산할 때는 고정된 값이기 때문이다.
