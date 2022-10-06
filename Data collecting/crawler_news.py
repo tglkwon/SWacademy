@@ -59,7 +59,7 @@ robots = dict()
 
 while urls:
     # URLs Pool
-    seed = urls.pop()  # Stack=DFS, .shift()로 하면 queue이고 BFS방식이 된다.
+    seed = urls.shift()  # Stack=DFS, .shift()로 하면 queue이고 BFS방식이 된다.
     seens.append(seed[0])  # 깊이 제한
 
     # #Robots.txt
