@@ -118,3 +118,82 @@ KNN 1등, LR 1등, DT 1등으로 결승전 해야한다.
 1. 더 많은 데이터를 구한다.
 2. 차원의 저주에 걸린 경우면 상관관계가 떨어지는 변수를 제거한다.
 3. regulazition으로 모델이 학습 데이터를 너무 잘 맞추지 못하게 한다.
+
+# 221012
+# feature selection
+```
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_wine
+import seaborn as sns
+
+data = load_wine(as_frame=True)
+wine = data.frame
+
+
+## 1. knowledge based feature selection : 지식 기반 특성 선택
+# wine.info()
+
+sns.heatmap(wine.corr(), annot=True)
+plt.show()
+
+# data leakage : y가 X_i에 포함되서 생기는 문제. 다중공선성(multicollinearity)
+
+
+## 2. filtered feature selection : 변수와 목표간의 통계적 상관관계를 확인하여, 그 상관관계가 낮은 변수를 제거하는 방법
+
+from sklearn.feature_selection import SelectKBest, chi2
+
+skb = SelectKBest(chi2, k=7)
+skb.fit_transform(wine.iloc[:,:-1], wine.target)
+# vars(skb)
+# dir(skb)
+
+## 3. wrapper feature selection : 알고리즘을 함께 고려해서 상관관계를 확인함. 모든 알고리즘을 사용할 수는 없다.
+from sklearn.feature_selection import RFE   # recursive feature elimenation
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+rfe = RFE(DecisionTreeClassifier(), n_features_to_select=7)
+rfe.fit_transform(wine.iloc[:,:-1], wine.target)
+
+print(vars(rfe))
+
+## 4. embeded feature selection : 알고리즘 자체가 변수의 중요도를 측정함
+dt = DecisionTreeClassifier()
+dt.fit(wine.iloc[:,:-1], wine.target)
+print(dt.feature_importances_)
+
+# 샘플이 iid라고 가정한다: indepencnt and identically distributed라고 가정
+```
+# ensemble technique
+```
+## bagging(bootostrap aggregation) : random sampling with replacement - overfitting을 줄일 수 있다.
+#  boosting : random sampling with replacement and over weighted data
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import AdaBoostClassifier
+import pandas as pd
+from sklearn.datasets import load_digits
+
+bc = BaggingClassifier()
+
+data = load_digits()
+print(pd.DataFrame(data.data))
+```
+# 전통적인 ML에서 하는 기본적인 가정과 비정형 데이터의 문제
+1. na, 빈 데이터가 없어야 한다.
+2. 모든 데이터는 숫자로 처리해야 한다.
+3. 모든 변수(차원, column)간 독립적이다.
+정형 데이터와 비정형 데이터를 구분하는 테크닉 : columns의 순서를 바꿔도 문제가 생기기 않으면 정형데이터(column간 독립적임)
+
+# y값(정답 데이터)가 없을 때 전통적인 ML이 해결하는 방법 : clustering
+
+
+# 주제
+## 목표 : 핵심 방법
+고양이 꼬리 보고 (input) 고양이 기분 맞추기 (output)
+- 머신러닝을 사용하지 않는 방식 : 도메인 지식이 제일 중요함: rule based
+데이터 수집 (labeling) > 데이터셋 구축
+- 기계학습
+- 딥러닝
+
+시스템화
