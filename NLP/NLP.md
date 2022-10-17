@@ -101,3 +101,46 @@ punctucation 등을 처리할 때 처리하는 순서나 방법을 고려해야 
                                 Branch-Entropy, Cohesion Score, Collocation - Bigram
                                 BPE(WPM-SPM)                     
 빈도, 길이, 품사 등을 기준으로 => 적절히 complexity를 줄일 수 있다.
+
+# 220928
+# Information retrieval : 정보 검색
+search와 retrieval의 차이 : 규모가 정해져 있고 관리 가능한 범위에서 찾는다 전자, 후자는 바닷가의 모래알 찾기
+information overload : 정보의 홍수
+
+# 220930
+# Search Engine Architecture
+Deployment diagram : 통합 모델링 언어의 배포 다이어그램은 노드에서 아티팩트의 물리적 배포를 모델링한다. 예를 들어 웹 사이트를 설명하기 위해 배포 다이어그램은 존재하는 하드웨어 구성 요소, 각 노드에서 실행되는 소프트웨어 구성 요소 및 다른 부분이 연결되는 방법을 보여준다.
+
+Crawler => Doc Analyzer-Doc Representation => Indexer-index => Ranker => Results
+
+## 검색 - 탐색 전략 BF, DF
+각각 장단점이 있지만 crawling에서는 너무 오래걸리고 언제 끝날지 모르는 문제가 있다.
+Focused Crawling으로 : 찾고자 하는 대상을 제한해서 검색하는 전략
+
+## html parsing
+- shallow parsing : HTML 태그를 모두 삭제하고 텍스트로만 가져오는 방법
+- jsoup 등 : dom 분석해서 정확히 우리가 원하는 내용만 추출하는 방법
+
+## full text indexing
+- 장점: 텍스트의 모든 정보를 보존할 수 있다. 자동화가 가능하다
+- 단점: 계산해야 하는 양이 너무 많다
+
+## solution : inverted index
+각 단어 별 document로 연결한 구조로 자료를 만든다.
+dict        ->  posting
+information ->  doc1, doc2
+retrieval   ->  doc1
+
+DTM : |D|*|Controlled Voca|
+TDM : |Controlled Voca|*|D|
+      [voca1] = (1, |D|) => Time Complexity 낮춤
+Key+Post : |Controlled Voca|*|L| => Space Complexity 낮춤
+
+# linked-list
+list[0]             [1]
+    [0]             [10]            [?]
+next:__-1__  <-  next:__-1__   <-next:__-1__
+data:______      data:______     data:______
+
+K:V(?)->next => [10]->next => [0]->next = -1
+  V(?)->data        ->data
