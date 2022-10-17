@@ -51,6 +51,15 @@ objective function or loss function을 최소화하는 것. 최적화 문제
    실제 뉴런의 활동처럼 sigmoid function을 활용했었다. 단점: 저 함수 자체가 미분하기 귀찮다.
    gradient descent으로 수학적으로 미분하기 힘든 함수를 CS적으로 미분하는 것처럼 해결 할 수 있었다.
 
+
+# gradient descent : 미분을 CS에서 간략화(쪼개서) 계산하는 방법
+임의의 위치에서 편미분한 결과(=그 점의 미분값)에 일정 learning rate만큼 곱해서 다음 위치를 탐색하다 보면 
+local maxima/minima에 수렴한다는 원리에 의한 계산 방법
+
 # Back propagation (1986)
+loss(error)의 최소값을 구하기 위해 layer의 역순으로 최소값을 구해 나가면서 weight를 업데이트 하는 방법
 
+# 딥러닝이 나오기 전 가장 큰 문제
+gradient vanicing : activation function의 합성도(layer수)가 늘어날 수록 gradient값이 0을 수렴해 버린다.
 
+# NN은 graph 형태의 구조체로 간주할수 있다. 바꿀 수 있다.

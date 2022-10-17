@@ -204,7 +204,7 @@ maxFreq = max(qterms.values())
 for t, f in qterms.items():
     queryVector[t] = TF(f, maxFreq, 0) * IDF(weightTDM[t][0], N)
 
-print('euclidean distance end')
+print('euclidean distance start')
 eucDist = dict()
 for docID, weights in DTM.items():
     # 벡터 구성은 차원 전체 (Controlled) Vocabulary t ㅌ V
@@ -216,10 +216,11 @@ for docID, weights in DTM.items():
         if docID not in eucDist:
             eucDist[docID] = 0.0
 
-        eucDist[i] += (qv - dv) ** 2
+        eucDist[docID] += (qv - dv) ** 2
 
-    eucDist[i] = sqrt((eucDist[i]))
+    eucDist[docID] = sqrt((eucDist[docID]))
 
+print('euclidean distance end')
 # cosine similarity 구하기
 queryVL = sqrt(sum(map(lambda row: row[1]**2, queryVector.items())))
 
@@ -244,3 +245,22 @@ for docID, ip in candidates.items():
     candidates[docID] = ip/(queryVL*sqrt(docLength[docID]))
 
 print('\ncalc end')
+
+
+########## ML_NLP 의 KNN을 돌려본 부분
+import re
+
+K = 7
+result = dict()
+
+for docID, cosSim in sorted(candidates.items(), key=lambda r:r[1], reverse=True)[:K]:
+    className = re.search(r'(\d{3})-', D[docID]).group(1)
+    if className in result:
+        result[className][0] += 1
+        result[className][1] += 1
+    else:
+        result[className] = [1, cosSim]
+
+
+for k,v in result.items():
+    print(k, v, v[1]/v[0], v[0]/K)
