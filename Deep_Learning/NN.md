@@ -63,3 +63,7 @@ loss(error)의 최소값을 구하기 위해 layer의 역순으로 최소값을 
 gradient vanicing : activation function의 합성도(layer수)가 늘어날 수록 gradient값이 0을 수렴해 버린다.
 
 # NN은 graph 형태의 구조체로 간주할수 있다. 바꿀 수 있다.
+
+# loss function : 문제해결하고자 하는 방법(classification, regression 등)에 따라 해결하기 좋은 loss function이 따로 있다.
+MSE : regression
+ACE : classification

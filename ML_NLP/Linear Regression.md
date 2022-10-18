@@ -14,9 +14,10 @@ f = sum(n)sum(m) * theta * phi * X
 bounded -1~1
 differentiable 미분가능함
 모든 실수에서 정의 가능한 구역에서 미분값이 양수 
-
-f = 1/(1+exp^-x)
+$
+f = 1/(1+\exp^-x)
 
 logic function : logistic의 역함수
 
 f = log(x/1-x)
+$
