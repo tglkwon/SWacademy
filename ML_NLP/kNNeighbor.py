@@ -9,7 +9,7 @@ from readCorpus import fileids
 from nltk.tokenize import sent_tokenize
 from konlpy.tag import Okt
 import re
-from math import log
+from math import log,sqrt
 from struct import pack, unpack
 
 

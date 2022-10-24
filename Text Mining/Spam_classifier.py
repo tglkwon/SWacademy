@@ -18,6 +18,10 @@ for line in cookie.splitlines():
 spamURL = 'https://mail.naver.com/json/list/?page=1&sortField=1&sortType=0&folderSN=5&type=&isUnread=false&u=tglkwon'
 resp = session.post(spamURL)
 
-spamMails = list()
+spamMailList = list()
 for mail in resp.json()['mailData']:
-    spamMails.append(unescape(mail['subject']))
+    spamMailList.append(unescape(mail['subject']))
+
+# 스팸메일의 본문들
+spamReadURL = 'https://mail.naver.com/pv/read.jsp?mailsn={}&time=1666233308819'.format('mailSN')
+resp = session.post(spamReadURL)

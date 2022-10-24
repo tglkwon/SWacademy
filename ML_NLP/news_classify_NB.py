@@ -21,7 +21,7 @@ for filename in fileids(path):
 
 
 # print(D[:10])
-def training(C, D):
+def training_NB(C, D):
     # Extract
     # V =  [row[1].split() for row in D]
     V = list()
@@ -67,7 +67,7 @@ def training(C, D):
     return  V, Prior, GlobalCondProb
 
 
-def testing(C, V, Prior, CondProb, d):
+def testing_NB(C, V, Prior, CondProb, d):
     # Extract
     W = list()
     for t in d.split():
@@ -88,7 +88,7 @@ def testing(C, V, Prior, CondProb, d):
     return score
 
 news_classes = ['정치','101','102','103','과학']
-V, Prior, CondProb = training(news_classes, D)
+V, Prior, CondProb = training_NB(news_classes, D)
 print(len(V), Prior)
 
 # 테스트하고 싶은 기사 내용
@@ -117,6 +117,6 @@ ct = list()
 for s in sent_tokenize(d):
     ct.append(' '.join(ma.nouns(s)))
     
-result = testing(news_classes, V, Prior, CondProb, '\n'.join(ct))
+result = testing_NB(news_classes, V, Prior, CondProb, '\n'.join(ct))
 
 print(news_classes[result.index(max(result))])
