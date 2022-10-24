@@ -1,10 +1,12 @@
 .idea
+__pycache__
 jsonWeb.jfif
 /Data collecting/config.py
 /Data collecting/news/*.txt
 /DataPipeline/incheon_yeonsugu_covid.csv
 /DataPipeline/ml-1m/*
 /DataPipeline/data/*
+/Deep_Learning/*ckp*
 JPype1-1.4.0-cp310-cp310-win_amd64.whl
 /ML/data
 /Text Mining/config.py
