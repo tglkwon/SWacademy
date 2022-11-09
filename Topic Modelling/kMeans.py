@@ -10,7 +10,6 @@ X = np.r_[X, X+np.array([1.5,0])]
 K = 4
 C = X[np.random.choice(N*4, K)]
 
-
 def Expectation(X, C):
     Rnk = np.zeros((N * 4, K))
     for i, x in enumerate(X):
