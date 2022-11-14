@@ -99,6 +99,14 @@ for topic in Topics:
         for i in np.argsort(t)[::-1][:10]:
             print(i2t[i], t[i])
         print('=============')
-
 plt.plot(SE)
 plt.show()
+
+u,s,vt = np.linalg.svd(X)
+for K in range(2,11):
+    print(K)
+    idx = np.arsort(s*s.T)[:,::-1][:,:10]
+    svt = vt[:K].T*s
+    for i in range(idx.shape[0]):
+        print('Topic', 1+i)
+        # print([i2t[j] for j in ])
