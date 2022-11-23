@@ -75,7 +75,7 @@ voting.fit(X_train, y_train)
 voting.transform(X_test)
 voting.estimators[0][1].steps[0][1]
 
-from sklearn.model_selection import  validation_curve
+from sklearn.model_selection import validation_curve
 train_score, test_score = validation_curve(KNeighborsClassifier(), X_train,y_train, param_name='n_neighbors', param_range=range(2,8))
 
 import sklearn_evaluation
